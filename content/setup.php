@@ -308,7 +308,10 @@ if ( post_type_exists( 'npl_lead' ) && ! get_posts( array( 'post_type' => 'npl_l
 }
 
 // Pretty links (/free-quote/ instead of ?page_id=5). Flushed last, after every page exists.
-update_option( 'permalink_structure', '/%postname%/' );
+// set_permalink_structure() also updates the rules WordPress already loaded for this request.
+// Only saving the option would rebuild the old rules, and blog posts would return "not found".
+global $wp_rewrite;
+$wp_rewrite->set_permalink_structure( '/%postname%/' );
 flush_rewrite_rules( false );
 
 nps_log( 'Northpine demo ready.' );
