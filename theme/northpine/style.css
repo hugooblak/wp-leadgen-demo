@@ -1,0 +1,183 @@
+/*
+Theme Name: Northpine
+Theme URI: https://github.com/hugooblak/wp-leadgen-demo
+Author: Hugo Oblak
+Description: Lead generation block theme for a fictional roofing company. Built around conversion basics: one clear offer, a short multi-step quote form, trust near every call to action, and a sticky call bar on phones. No page builder.
+Requires at least: 6.6
+Tested up to: 6.6
+Requires PHP: 7.4
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: northpine
+*/
+
+/* Only rules that theme.json can't express live here. */
+
+/* Keyboard focus: always visible, 3px, high contrast. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+	outline: 3px solid var(--wp--preset--color--pine);
+	outline-offset: 2px;
+	border-radius: 4px;
+}
+.is-style-section-dark :where(a, button, summary):focus-visible,
+.np-mobile-cta :where(a):focus-visible { outline-color: var(--wp--preset--color--sun); }
+
+.skip-link.screen-reader-text:focus { background: var(--wp--preset--color--ink); color: #fff; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* Sticky header on wide screens keeps the quote button in reach. */
+@media (min-width: 782px) {
+	.wp-site-blocks > header.wp-block-template-part { position: sticky; top: 0; z-index: 50; }
+	.admin-bar .wp-site-blocks > header.wp-block-template-part { top: 32px; }
+}
+.np-header { box-shadow: 0 1px 0 var(--wp--preset--color--line); }
+
+/* Logo mark drawn with CSS so no image request is needed. */
+.np-brand .wp-block-site-title a { display: inline-flex; align-items: center; gap: .55rem; }
+.np-brand .wp-block-site-title a::before {
+	content: ""; width: 30px; height: 30px; flex: none; border-radius: 8px;
+	background: var(--wp--preset--color--pine) url("assets/img/mark.svg") center / 20px no-repeat;
+}
+
+/* Header phone: big tap target, number never wraps. */
+.np-phone a { text-decoration: none; font-weight: 700; white-space: nowrap; color: var(--wp--preset--color--ink); }
+.np-phone small { display: block; font-weight: 500; color: var(--wp--preset--color--ink-soft); font-size: .8125rem; }
+@media (max-width: 959px) { .np-header .np-phone { display: none; } }
+@media (max-width: 480px) { .np-header .np-header-btn .wp-block-button__link { padding: .7rem .9rem; font-size: .9375rem; } }
+
+/* Small label above headings. */
+.is-style-eyebrow {
+	text-transform: uppercase; letter-spacing: .08em; font-size: .8125rem !important; font-weight: 700;
+	color: var(--wp--preset--color--pine);
+}
+.is-style-section-dark .is-style-eyebrow { color: var(--wp--preset--color--sun); }
+
+/* Tick list. */
+ul.is-style-checklist { list-style: none; padding-left: 0; }
+ul.is-style-checklist li { position: relative; padding-left: 1.9rem; margin-bottom: .45rem; }
+ul.is-style-checklist li::before {
+	content: ""; position: absolute; left: 0; top: .22em; width: 1.25rem; height: 1.25rem; border-radius: 50%;
+	background: var(--wp--preset--color--pine-light) url("assets/img/tick.svg") center / 12px no-repeat;
+}
+.is-style-section-dark ul.is-style-checklist li::before { background-color: rgba(255,255,255,.14); background-image: url("assets/img/tick-light.svg"); }
+
+/* Star rating text (the stars are decorative; the number is the real text). */
+.np-stars::before { content: "★★★★★"; content: "★★★★★" / ""; color: var(--wp--preset--color--sun); letter-spacing: 2px; margin-right: .4rem; }
+
+/* Trust strip items. */
+.np-trust p { margin: 0; font-weight: 600; font-size: var(--wp--preset--font-size--small); }
+
+/* Step numbers. */
+.np-step-num {
+	display: inline-grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 50%;
+	background: var(--wp--preset--color--pine); color: #fff !important; font-weight: 800; margin: 0;
+}
+
+/* Price guide table. */
+.np-price-table table { border-collapse: collapse; width: 100%; }
+.np-price-table th, .np-price-table td { border: 0; border-bottom: 1px solid var(--wp--preset--color--line); padding: .85rem .6rem; text-align: left; }
+.np-price-table thead th { font-size: var(--wp--preset--font-size--small); color: var(--wp--preset--color--ink-soft); border-bottom-width: 2px; }
+.np-price-table td:last-child { font-weight: 700; white-space: nowrap; }
+.np-price-table figcaption { font-size: var(--wp--preset--font-size--small); color: var(--wp--preset--color--ink-soft); text-align: left; }
+
+/* FAQ (core Details block). */
+.wp-block-details summary { cursor: pointer; font-weight: 700; list-style: none; position: relative; padding-right: 2rem; }
+.wp-block-details summary::-webkit-details-marker { display: none; }
+.wp-block-details summary::after {
+	content: "+"; position: absolute; right: .25rem; top: -.1rem; font-size: 1.5rem; line-height: 1; font-weight: 400;
+	color: var(--wp--preset--color--pine);
+}
+.wp-block-details[open] summary::after { content: "−"; }
+.wp-block-details > :not(summary) { margin-top: .6rem; color: var(--wp--preset--color--ink-soft); }
+
+/* Cards lift a little on hover when they contain a link. */
+.is-style-card:has(a) { transition: box-shadow .15s ease; }
+.is-style-card:has(a):hover { box-shadow: var(--wp--preset--shadow--card); }
+
+/* Sticky call bar: phones and tablets (the header phone number shows from 960px up). */
+.wp-block-buttons.np-mobile-cta { display: none; }
+@media (max-width: 959px) {
+	.wp-block-buttons.np-mobile-cta {
+		display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+		padding: .6rem .75rem calc(.6rem + env(safe-area-inset-bottom));
+		background: var(--wp--preset--color--ink); gap: .6rem;
+		box-shadow: 0 -6px 24px rgba(15,34,51,.2);
+	}
+	.np-mobile-cta .wp-block-button { flex: 1; }
+	.np-mobile-cta .wp-block-button__link { width: 100%; padding: .8rem .5rem; font-size: 1rem; }
+	.np-mobile-cta .is-style-outline .wp-block-button__link { color: #fff; border-color: rgba(255,255,255,.5); }
+	body:has(.np-mobile-cta) { padding-bottom: 76px; }
+}
+
+/* Footer links: no underline until hover. */
+.np-footer a { text-decoration: none; }
+.np-footer a:hover { text-decoration: underline; }
+.np-footer ul { list-style: none; padding-left: 0; }
+.np-footer li { margin-bottom: .4rem; }
+
+/* Long words and numbers never force sideways scroll. */
+h1, h2, h3, p, li { overflow-wrap: break-word; }
+
+.np-lift { box-shadow: var(--wp--preset--shadow--lift); }
+.np-sample { color: var(--wp--preset--color--ink-soft); font-weight: 400; }
+.is-style-section-dark .np-sample { color: #C9D3DB; }
+.np-header .wp-block-button__link { white-space: nowrap; }
+
+/* Sections sit flush: no gap between the main content and the footer. */
+.wp-site-blocks > * + * { margin-block-start: 0; }
+
+/* Comparison table: emphasise our column, not the competitor's. */
+.np-compare-table td:last-child { font-weight: 400; color: var(--wp--preset--color--ink-soft); white-space: normal; }
+.np-compare-table td:nth-child(2) { font-weight: 700; }
+
+/* Phones: logo on one line, and get the hero form closer to the top of the screen. */
+@media (max-width: 600px) {
+	.np-header .wp-block-site-title { font-size: 1.0625rem !important; white-space: nowrap; }
+	.np-brand .wp-block-site-title a::before { width: 26px; height: 26px; background-size: 17px; }
+	.np-hide-mobile { display: none !important; }
+	.np-price-table th, .np-price-table td { padding: .7rem .35rem; font-size: .9375rem; hyphens: auto; }
+	.np-price-table:not(.np-compare-table) th:nth-child(2), .np-price-table:not(.np-compare-table) td:nth-child(2) { display: none; }
+	.np-compare-table th, .np-compare-table td { font-size: .875rem; }
+}
+
+@media (max-width: 600px) {
+	.np-header .wp-block-group { gap: .6rem !important; }
+	.np-focus-phone a { white-space: nowrap; }
+}
+/* Quote funnel pages: sand all the way down, even when the page is short. */
+body.page-template-page-focus { background: var(--wp--preset--color--sand); }
+
+/* Articles and simple pages: calmer heading sizes than landing page sections. */
+.np-prose h2 { font-size: var(--wp--preset--font-size--x-large); margin-top: var(--wp--preset--spacing--50); }
+.np-prose h3 { margin-top: var(--wp--preset--spacing--40); }
+
+/* Reserve the illustration's space before it loads (no layout shift). */
+.wp-block-image img[src$="house.svg"] { aspect-ratio: 560 / 400; width: 100%; height: auto; }
+
+/* Comparison table fits a phone screen without sideways scrolling. */
+@media (max-width: 600px) {
+	.wp-block-table.np-compare-table { overflow-x: visible; }
+	.np-compare-table table { table-layout: fixed; width: 100%; }
+	.np-compare-table th, .np-compare-table td { overflow-wrap: anywhere; }
+}
+
+/* Very small phones: the sticky bottom bar already has the quote button, so the header keeps just logo and menu. */
+@media (max-width: 359px) { .np-header .np-header-btn { display: none; } }
+
+/* The quote form script adds this class while a form is on screen (see Northpine Leads). */
+@media (max-width: 959px) {
+	.wp-block-buttons.np-mobile-cta { transition: transform .2s ease; }
+	.npl-form-in-view .wp-block-buttons.np-mobile-cta { transform: translateY(110%); visibility: hidden; transition: transform .2s ease, visibility 0s .2s; }
+}
+@media (prefers-reduced-motion: reduce) { .wp-block-buttons.np-mobile-cta { transition: none; } }
+
+/* Tablets: keep the menu on one line. */
+@media (min-width: 600px) and (max-width: 1079px) {
+	.np-header .wp-block-navigation { font-size: .875rem; }
+	.np-header .wp-block-navigation .wp-block-navigation__container { gap: 1rem !important; }
+	.np-header .wp-block-group { gap: 1rem !important; }
+	.np-header .wp-block-site-title { white-space: nowrap; font-size: 1.0625rem !important; }
+}
